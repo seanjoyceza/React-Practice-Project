@@ -1,43 +1,24 @@
 import React, { useState } from "react";
 
-import InputForm from "./components/InputForm";
-import UserList from "./components/UserList";
-
-const existingUsers = [
-    {
-        key: "u1",
-        username: "Max",
-        age: "31 years old",
-    },
-    {
-        key: "u2",
-        username: "Sean",
-        age: "26 years old",
-    },
-];
+import AddUser from "./components/Users/AddUser";
+import UsersList from "./components/Users/UsersList";
 
 function App() {
-    const [allData, setAllData] = useState(existingUsers);
-    // const [inputValidate, setInputValidate] = useState(true);
-    const [ageValidate, setAgeValidate] = useState(true);
+    const [usersList, setUsersList] = useState([]);
 
-    const saveDataHandler = (newData) => {
-        const enteredAge = newData.age;
-        if (newData.age >= 0) {
-            setAllData((prevData) => {
-                return [newData, ...prevData];
-            });
-        } else {
-            const enteredAge = newData.age;
-            return enteredAge;
-        }
+    const addUserHandler = (uName, uAge) => {
+        setUsersList((prevUsersList) => {
+            return [
+                ...prevUsersList,
+                { name: uName, age: uAge, id: Math.random().toString() },
+            ];
+        });
     };
 
     return (
         <div>
-            <InputForm onAddUserData={saveDataHandler} />
-            <UserList users={allData} />
-            {enteredAge >= 0 ? console.log("yes") : console.log("no")}
+            <AddUser onAddUser={addUserHandler} />
+            <UsersList users={usersList} />
         </div>
     );
 }
